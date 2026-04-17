@@ -8,9 +8,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc g++ libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY pyproject.toml .
+COPY backend/pyproject.toml .
 # We need the app directory to build the package
-COPY app ./app
+COPY backend/app ./app
 
 ENV PYO3_USE_ABI3_FORWARD_COMPATIBILITY=1
 RUN pip install --upgrade pip \
@@ -31,7 +31,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /install /usr/local
-COPY app ./app
+COPY backend/app ./app
+COPY backend/alembic ./alembic
+COPY backend/alembic.ini ./alembic.ini
 
 # Create a non-root user
 RUN useradd -m -u 1001 appuser && chown -R appuser /app
