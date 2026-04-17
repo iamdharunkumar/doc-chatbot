@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["app"]
+
+[project]
+name = "doc-chatbot-backend"
+version = "1.0.0"
+requires-python = ">=3.11"
+dependencies = [
+    # Web framework
+    "fastapi==0.115.6",
+    "uvicorn[standard]==0.32.1",
+    "python-multipart==0.0.20",
+
+    # Database
+    "sqlalchemy==2.0.36",
+    "greenlet==3.1.1",
+    "asyncpg==0.30.0",
+    "alembic==1.14.0",
+    "pgvector==0.3.6",
+    "psycopg-binary==3.2.10",
+
+    # Auth
+    "python-jose[cryptography]==3.3.0",
+    "passlib[bcrypt]==1.7.4",
+    "bcrypt==4.2.1",
+
+    # Storage
+    "minio==7.2.12",
+
+    # Cache & Rate limiting
+    "redis==5.2.1",
+    "slowapi==0.1.9",
+
+    # LLM / LangChain
+    "langchain==0.3.12",
+    "langchain-groq==0.2.4",
+    "langchain-community==0.3.12",
+    "sentence-transformers==3.3.1",
+    "faiss-cpu==1.13.2",
+
+    # Document processing
+    "pymupdf==1.25.1",
+    "pdfminer.six==20231228",
+
+    # Audio/Video transcription
+    "faster-whisper==1.1.1",
+
+    # Utilities
+    "pydantic==2.10.3",
+    "pydantic[email]==2.10.3",
+    "pydantic-settings==2.7.0",
+    "python-dotenv==1.0.1",
+    "httpx==0.28.1",
+    "sse-starlette==2.2.1",
+    "aiofiles==24.1.0",
+    "numpy==1.26.4",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==8.3.4",
+    "pytest-asyncio==0.25.0",
+    "pytest-cov==6.0.0",
+    "httpx==0.28.1",
+    "pytest-mock==3.14.0",
+    "anyio==4.8.0",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "--cov=app --cov-report=term-missing --cov-report=xml --cov-fail-under=95"
+
+[tool.coverage.run]
+source = ["app"]
+omit = ["app/alembic/*", "tests/*"]
